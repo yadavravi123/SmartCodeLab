@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.compiler{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding:1em;
+}
+.code_area{
+  padding:2em;
+}
+
+.compiler_form{
+ 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width:50%;
+  /* background-color: yellow; */
+}
+.compiler_buttons{
+  width:15em;
+  display: flex;
+  margin:1em;
+  justify-content: space-around;
+}
+.submit-status{
+  padding-bottom: 1em;
+}
+
+/* question */
+.QuestionBox{
+  /* background-color: yellow; */
+  margin:9px 4em;
+  padding:10px;
+}
+.question-title{
+  font-weight: bold;
+  font-size:25px;
+}
+.question-details{
+  display: flex;
+  font-size:20px;
+  
+}
+p{
+  margin:0;
+  padding:0;
+}
+.detail-item{
+  margin-right:4px;
+}
+.QuestionListContainer{
+  
+}
+.QuestionDescription{
+  display: flex;
+  flex-direction: column;
+  width:100%;
+
+  padding:1em;
+}
+.codeEditor{
+  display: flex;
+  
+}
+
+.panes{
+    width:100%;
+}
