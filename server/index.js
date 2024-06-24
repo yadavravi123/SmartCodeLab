@@ -6,6 +6,10 @@ require('dotenv').config()
 const PORT=8000;
 app.use(cors());
 app.use(express.json());
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+
 const baseURL=`http://localhost:8000`
 app.post("/compile", async(req,res)=>{
     let code=req.body.code;
@@ -102,6 +106,40 @@ app.get("/submission/:token",async(req,res)=>{
       } catch (error) {
           console.error('error at get submissions',error);
       }
+})
+app.post("/generate-response", async(req,res)=>{
+  try{
+        // const prompt = req.body.prompt;
+        // const result = await model.generateContent(prompt);
+        // const response = await result.response;
+        // const text = response.text();
+        // console.log(text);
+        const text=`dkflsf fskf ERROR
+ResizeObserver loop completed with undelivered notifications.
+    at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
+    at http://localhost:3000/static/js/bundle.js:48398:7
+ERROR
+ResizeObserver loop completed with undelivered notifications.at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
+    at http://localhost:3000/static/js/bundle.js:48398:7
+    ERROR
+ResizeObserver loop completed with undelivered notifications.
+    at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
+    at http://localhost:3000/static/js/bundle.js:48398:7
+ERROR
+ResizeObserver loop completed with undelivered notifications.
+    at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
+    at http://localhost:3000/static/js/bundle.js:48398:7 ERROR
+ResizeObserver loop completed with undelivered notifications.
+    at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
+    at http://localhost:3000/static/js/bundle.js:48398:7
+ERROR
+ResizeObserver loop completed with undelivered notifications.
+    at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
+    at http://localhost:3000/static/js/bundle.js:48398:7`;
+        res.send(text);
+  } catch(error){
+    console.log(`error while generating response`);
+  }
 })
 
 app.listen(PORT,()=>{

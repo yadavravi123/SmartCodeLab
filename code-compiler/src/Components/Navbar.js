@@ -11,7 +11,7 @@ const Navbar=({userLang,setUserLang,userLangId,setUserLangId,userTheme,setUserTh
         { value: "light", label: "Light" },
     ]
     return (<div className="navbar">
-                <h1>Code Compiler</h1>
+                <h1>SmartCodeLab</h1>
                 <Select options={languageOptions} value={userLang} onChange={(e)=>{setUserLang(e.value);setUserLangId(e.id); console.log(e.id);}} placeholder={userLang}/>
                 <Select options={themes} value={userTheme}
                     onChange={(e) => setUserTheme(e.value)}

@@ -4,7 +4,10 @@ import Editor from "@monaco-editor/react";
 import Navbar from './Components/Navbar';
 import spinner from "./spinner.svg"
 import Axios from "axios";
+import { IoMdClose } from "react-icons/io";
 import { languageOptions } from "./Components/languageOptions";
+
+const URL=`http://localhost:8000`;
 
 function App(){
   const [userCode,setUserCode]=useState(``);
@@ -14,7 +17,10 @@ function App(){
   const [fontSize,setFontSize]=useState(20);
   const [userInput,setUserInput]=useState("");
   const [userOutput,setUserOutput]=useState("");
-
+  const [geminiText,setGeminiText]=useState("");
+  const [geminiSideBar,setGeminiSideBar]=useState
+  (false);
+  // const[loadingGemini,setLoadingGemini]=useState(false);
   const [loading,setLoading]=useState(false);
   const options={
     fontSize:fontSize
@@ -23,6 +29,7 @@ function App(){
   function compile(){
     setLoading(true);
     if(userCode==``){
+      setLoading(false);
       return;
     }
     Axios.post(`http://localhost:8000/compile`,{
@@ -37,10 +44,30 @@ function App(){
     })
   
   }
+  async function handleOpenGemini(){
+    let prompt=`Please explain why is this code giving error, below is the input code: \n ${userCode}`;
+    // setLoadingGemini(true);
+    setLoading(true);
+    setGeminiSideBar(true);
+    const response=await Axios.post(`${URL}/generate-response`,{
+      prompt:prompt
+    });
+    // setLoadingGemini(false);
+    setLoading(false);
+    setGeminiText(response.data);
+   
+  }
+  function handleCloseGemini(){
+    setGeminiText("");
+    setGeminiSideBar(false);
+    setGeminiText("");
+  }
 
   function clearOutput(){
       setUserOutput("");
   }
+
+  
 
   return (
     <div>
@@ -64,10 +91,10 @@ function App(){
                         Run
             </button>
         </div>  
-        <div className="right-container">
+        {geminiSideBar || <div className="right-container">
           <h4>Input:</h4>
           <div className="input-box">
-                <textarea id="code-inp" onChange=
+                <textarea id="code-inp" value={userInput} onChange=
                     {(e) => setUserInput(e.target.value)}>
                 </textarea>
           </div>
@@ -78,14 +105,29 @@ function App(){
             <img src={spinner} alt="Loading..." />
             </div>):
             (<div className="output-box">
-              <pre className="userOutput">{userOutput}</pre>
+              <pre className="userOutput" value={userOutput}>{userOutput}</pre>
               <button onClick={() => { clearOutput() }}
                   className="clear-btn">
                   Clear
               </button>
+              <button className="ask-gemini" onClick={handleOpenGemini}>Ask Gemini</button>
+
           </div>)
           }
+          
         </div>
+        }
+        {loading && (<div className="spinner-box">
+            <img src={spinner} alt="Loading..." />
+            </div>)}
+        {geminiSideBar && !loading && <div className="gemini-side-bar">
+          <div className="gemini-header">
+            <button className="close-gemini" onClick={handleCloseGemini}><IoMdClose /></button>
+            
+          </div>
+          <div className="gemini-content">{geminiText}</div>
+        </div>
+        }
       </div>
     </div>
   );

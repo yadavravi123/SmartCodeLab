@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import QuestionDescription from "./QuestionDescription";
-import Compiler from "./Compiler";
+// import QuestionDescription from "./QuestionDescription";
+// import Compiler from "./Compiler";
 
 export default function Pan({Qid}) {
   
@@ -11,9 +11,11 @@ export default function Pan({Qid}) {
 function ResizablePanes({Qid}) {
     return (
       <div className="panes w-screen h-screen flex">
-        <ResizablePane initialSize={500}    bgColor={"bg-red-400"}><QuestionDescription Qid={Qid}/></ResizablePane>
+        {/* <ResizablePane initialSize={500}    bgColor={"bg-red-400"}><QuestionDescription Qid={Qid}/></ResizablePane> */}
+        <ResizablePane initialSize={500}    bgColor={"bg-red-400"}></ResizablePane>
 
-        <ResizablePane initialSize={500} grow={true}  bgColor={"bg-yellow-400"}><Compiler Qid={Qid} /></ResizablePane>  
+        {/* <ResizablePane initialSize={500} grow={true}  bgColor={"bg-yellow-400"}><Compiler Qid={Qid} /></ResizablePane> */}
+        <ResizablePane initialSize={500} grow={true}  bgColor={"bg-yellow-400"}>dfdf</ResizablePane>
       </div>
     );
 } 
