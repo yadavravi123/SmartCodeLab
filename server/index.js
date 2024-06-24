@@ -6,28 +6,17 @@ require('dotenv').config()
 const PORT=8000;
 app.use(cors());
 app.use(express.json());
-
+const baseURL=`http://localhost:8000`
 app.post("/compile", async(req,res)=>{
-    console.log('hit');
-    // res.send("hello world");
     let code=req.body.code;
     let language=req.body.language;
+    let userLangId=req.body.userLangId;
     let input=req.body.input;
     if(language=="python"){
         language="py"
     }
-    code=`#include <iostream>
-
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
-`;
-    let data={
-        "code":code,
-        "language":language,
-        "input":input
-    }
+    // console.log('input',input);
+  
     const options = {
         method: 'POST',
         url: 'https://judge0-ce.p.rapidapi.com/submissions',
@@ -42,38 +31,76 @@ int main() {
           'Content-Type': 'application/json'
         },
         data: {
-          language_id: 52,
+          language_id:userLangId,
           source_code:code,
-          stdin:'',
+          stdin:input,
         }
       };
       try {
         const response = await axios.request(options);
-        console.log(response.data);
+        const {token}=response.data;
+        var submissionDetails;
+        while(1){
+        submissionDetails=await axios.get(`${baseURL}/submission/${token}`);
+        if(submissionDetails.data.status.id>2) break;
+        }
+        // submissionDetails=await axios.get(`${baseURL}/submission/${token}`);
+        // let statusId=submissionDetails.data.status.id;
+        // if(statusId===1 || statusId===2){
+        //   // still processing
+        //   setTimeout(async()=>{
+        //     submissionDetails=await axios.get(`${baseURL}/submission/${token}`);
+        //   },2000)
+        //   return;
+        // }
+        var {stdout,time,memory,status,compile_output}=submissionDetails.data;
+        if(!stdout) stdout="";
+        var temp=status.description+'\n'+stdout+'\n'+compile_output;
+        res.send(temp);
         } catch (error) {
         console.error(error);
     }
 
 })
-app.get("/test",async(req,res)=>{
+
+app.get("/submission/:token",async(req,res)=>{
     const options = {
         method: 'GET',
-        url: 'https://judge0-ce.p.rapidapi.com/submissions/4447e1c0-02be-4e7d-a453-cade79dc0574',
+        url: `https://judge0-ce.p.rapidapi.com/submissions/${req.params.token}`,
         params: {
-          base64_encoded: 'false',
-          fields: '*'
+          base64_encoded: 'true',
+          wait: 'false',
+          // fields: `stdout,status,time,memory`
+          fields:'*',
         },
         headers: {
           'x-rapidapi-key':process.env.API_KEY,
           'x-rapidapi-host':process.env.API_HOST,
         }
       };
-      
       try {
           const response = await axios.request(options);
-          console.log(response.data);
+          // console.log(response.data);
+          var {stdout,time,memory,status,compile_output}=response.data;
+          var output;
+          if(status.description==="Accepted"){
+           output = Buffer.from(stdout, 'base64').toString('utf8');
+          }
+          if(compile_output)
+          compile_output=Buffer.from(compile_output,'base64').toString('utf-8');
+          else compile_output=""
+          console.log(compile_output);
+
+          var resObj={
+            stdout:output,
+            time,
+            memory,
+            status,
+            compile_output
+          }
+          res.send(resObj);
       } catch (error) {
-          console.error(error);
+          console.error('error at get submissions',error);
       }
 })
 

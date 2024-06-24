@@ -4,10 +4,12 @@ import Editor from "@monaco-editor/react";
 import Navbar from './Components/Navbar';
 import spinner from "./spinner.svg"
 import Axios from "axios";
+import { languageOptions } from "./Components/languageOptions";
 
 function App(){
   const [userCode,setUserCode]=useState(``);
-  const [userLang,setUserLang]=useState("python");
+  const [userLang,setUserLang]=useState("C++ (GCC 7.4.0)");
+  const [userLangId,setUserLangId]=useState(52);
   const [userTheme,setUserTheme]=useState("vs-dark");
   const [fontSize,setFontSize]=useState(20);
   const [userInput,setUserInput]=useState("");
@@ -26,6 +28,7 @@ function App(){
     Axios.post(`http://localhost:8000/compile`,{
           code:userCode,
           language:userLang,
+          userLangId:userLangId,
           input:userInput,
     }).then((res)=>{
         setUserOutput(res.data);
@@ -42,6 +45,7 @@ function App(){
   return (
     <div>
       <Navbar userLang={userLang} setUserLang={setUserLang}
+      userLangId={userLangId} setUserLangId={setUserLangId}
                 userTheme={userTheme} setUserTheme={setUserTheme}
                 fontSize={fontSize} setFontSize={setFontSize}/>
       <div className="main">
@@ -59,7 +63,7 @@ function App(){
             <button className="run-btn" onClick={() => compile()}>
                         Run
             </button>
-        </div>
+        </div>  
         <div className="right-container">
           <h4>Input:</h4>
           <div className="input-box">
