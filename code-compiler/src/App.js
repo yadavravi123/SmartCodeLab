@@ -3,7 +3,7 @@ import './App.css';
 import Editor from "@monaco-editor/react";
 import Navbar from './Components/Navbar';
 import spinner from "./spinner.svg"
-import { Axios } from "axios";
+import Axios from "axios";
 
 function App(){
   const [userCode,setUserCode]=useState(``);
@@ -28,10 +28,11 @@ function App(){
           language:userLang,
           input:userInput,
     }).then((res)=>{
-        setUserOutput(res.data.output);
+        setUserOutput(res.data);
     }).then(()=>{
       setLoading(false);
     })
+  
   }
 
   function clearOutput(){
@@ -40,7 +41,9 @@ function App(){
 
   return (
     <div>
-      <Navbar/>
+      <Navbar userLang={userLang} setUserLang={setUserLang}
+                userTheme={userTheme} setUserTheme={setUserTheme}
+                fontSize={fontSize} setFontSize={setFontSize}/>
       <div className="main">
         <div className="left-container">
           <Editor
@@ -71,7 +74,7 @@ function App(){
             <img src={spinner} alt="Loading..." />
             </div>):
             (<div className="output-box">
-              <pre>{userOutput}</pre>
+              <pre className="userOutput">{userOutput}</pre>
               <button onClick={() => { clearOutput() }}
                   className="clear-btn">
                   Clear
