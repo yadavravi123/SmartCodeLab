@@ -2,8 +2,8 @@ const express=require("express")
 const cors=require("cors")
 const axios=require("axios")
 const app=express()
+require('dotenv').config()
 const PORT=8000;
-
 app.use(cors());
 app.use(express.json());
 
@@ -37,8 +37,8 @@ int main() {
           fields: '*'
         },
         headers: {
-          'x-rapidapi-key': 'a3ac0fae41msh02540298c308ef9p18f5aajsn5292abfadac7',
-          'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
+          'x-rapidapi-key':process.env.API_KEY,
+          'x-rapidapi-host':process.env.API_HOST,
           'Content-Type': 'application/json'
         },
         data: {
@@ -64,8 +64,8 @@ app.get("/test",async(req,res)=>{
           fields: '*'
         },
         headers: {
-          'x-rapidapi-key': 'a3ac0fae41msh02540298c308ef9p18f5aajsn5292abfadac7',
-          'x-rapidapi-host': 'judge0-ce.p.rapidapi.com'
+          'x-rapidapi-key':process.env.API_KEY,
+          'x-rapidapi-host':process.env.API_HOST,
         }
       };
       
