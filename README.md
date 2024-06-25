@@ -20,7 +20,7 @@ SmartCodeLab is a cutting-edge web application built using React and Node.js, de
 # Getting Started
 Installation
 1. Clone the repository:
-    <code>git clone https://github.com/your-username/smartcodelab.git</code>
+    <code>git clone https://github.com/yadavravi123/SmartCodeLab</code>
 2. Navigate to the project directory:
     <code>cd smartcodelab</code>
 3. Install the dependencies:
