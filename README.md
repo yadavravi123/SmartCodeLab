@@ -4,29 +4,29 @@ SmartCodeLab is a cutting-edge web application built using React and Node.js, de
 
 # Features
 * Multi-Language Compiler
-1. Support for 40+ Programming Languages: Compile code in a wide range of languages including Python, Java, C++, JavaScript, Ruby, Go, and many more.
-2. Real-Time Compilation: Instantly compile and run your code directly within the web application, providing immediate feedback and results.
+   1. Support for 40+ Programming Languages: Compile code in a wide range of languages including Python, Java, C++, JavaScript, Ruby, Go, and many more.
+   2. Real-Time Compilation: Instantly compile and run your code directly within the web application, providing immediate feedback and results.
 
 * AI-Powered Assistance
-Gemini (LLM Model):  Get intelligent suggestions and fixes for bugs in your code. Gemini leverages advanced language models to understand your code context and provide actionable recommendations.
-Code Explanation: Receive detailed explanations of your code snippets, helping you understand complex logic and improve your coding skills.
-Code Optimization: Gemini can suggest optimizations and improvements to make your code more efficient and maintainable.
+   Gemini (LLM Model):  Get intelligent suggestions and fixes for bugs in your code. Gemini leverages advanced language models to understand your code context and provide actionable recommendations.
+   Code Explanation: Receive detailed explanations of your code snippets, helping you understand complex logic and improve your coding skills.
+   Code Optimization: Gemini can suggest optimizations and improvements to make your code more efficient and maintainable.
 
 * Dark & Light Modes
 
 # Why SmartCodeLab?
-SmartCodeLab isn't just another code editor. It's a comprehensive development environment that integrates the power of a multi-language compiler with advanced AI assistance, making it a truly unique platform. Whether you're debugging complex algorithms, learning a new programming language, or optimizing your code for better performance, SmartCodeLab provides the tools you need to succeed.
+  SmartCodeLab isn't just another code editor. It's a comprehensive development environment that integrates the power of a multi-language compiler with advanced AI assistance, making it a truly unique platform. Whether you're debugging complex algorithms, learning a new programming language, or optimizing your code for better performance, SmartCodeLab provides the tools you need to succeed.
 
 # Getting Started
 Installation
 1. Clone the repository:
-- git clone https://github.com/your-username/smartcodelab.git
+    <code>git clone https://github.com/your-username/smartcodelab.git</code>
 2. Navigate to the project directory:
-- cd smartcodelab
+    <code>cd smartcodelab</code>
 3. Install the dependencies:
-- npm install
+    <code>npm install</code>
 4. Start the development server:
-- npm start
+    <code>npm start</code>
 
 # Usage
 1. Open your web browser and navigate to http://localhost:3000.
