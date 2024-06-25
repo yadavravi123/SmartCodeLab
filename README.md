@@ -1,1 +1,1 @@
-# Virtual-recruitment-webApp
+# SmartCodeLab: Enhancing debugging experience with AI
