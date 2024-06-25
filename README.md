@@ -1,1 +1,1 @@
-# SmartCodeLab: Enhancing debugging experience with AI
+# SmartCodeLab: Enhancing programming and debugging experience with AI
