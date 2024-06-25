@@ -7,7 +7,7 @@ SmartCodeLab is a cutting-edge web application built using React and Node.js, de
 1. Support for 40+ Programming Languages: Compile code in a wide range of languages including Python, Java, C++, JavaScript, Ruby, Go, and many more.
 2. Real-Time Compilation: Instantly compile and run your code directly within the web application, providing immediate feedback and results.
 
-* AI-Powered Assistance with Google Gemini (LLM Model)
+* AI-Powered Assistance with Google Gemini (LLM Model) <br>
     Get intelligent suggestions and fixes for bugs in your code. Gemini leverages advanced language models to understand your code context and provide actionable recommendations.
     Code Explanation: Receive detailed explanations of your code snippets, helping you understand complex logic and improve your coding skills.
     Code Optimization: Gemini can suggest optimizations and improvements to make your code more efficient and maintainable.
