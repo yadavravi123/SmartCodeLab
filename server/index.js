@@ -1,17 +1,82 @@
 const express=require("express")
 const cors=require("cors")
 const axios=require("axios")
+const http = require('http');
 const app=express()
+const socketIo = require('socket.io');
 require('dotenv').config()
 const PORT=8000;
+const baseURL=`http://localhost:8000`
+
+
 app.use(cors());
 app.use(express.json());
+
+
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 
-const baseURL=`http://localhost:8000`
+
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+      origin: '*',
+      methods: ['GET', 'POST'],
+      credentials: true
+  }
+});
+
+
+//-----------variables------------------------------------
+let RoomtoUser=new Map();
+let RoomtoContent=new Map();
+
+// -----------socket handling------------------------------
+
+
+io.on('connection',(socket)=>{
+  console.log('a user connected ',socket.handshake.query);  
+
+  const sktId=socket.id;
+  const {RoomId,username}=socket.handshake.query;
+
+  socket.on('disconnect',()=>{
+    console.log('disconnected');
+  })
+
+  socket.on('join',({RoomId,username})=>{
+      socket.join(RoomId);
+      // console.log('socket joined room',RoomId);
+      console.log('lkdflskdf',RoomtoUser.get(RoomId),socket.id);
+      if(RoomtoUser.has(RoomId)===false){
+          RoomtoUser.set(RoomId,[{socketId:sktId,username:username}]);
+      }
+      else{
+          RoomtoUser.get(RoomId).push({socketId:sktId,username:username});
+      }
+
+      // console.log(`kjdjdf`,RoomtoUser.get(RoomId));
+      let updatedContent="";
+      if(RoomtoContent.has(RoomId)==true) updatedContent=RoomtoContent.get(RoomId);
+      let updatedClientList=RoomtoUser.get(RoomId);
+      // console.log('content:',updatedContent);
+      io.to(RoomId).emit('join',{updatedClientList,updatedContent});
+    })
+
+  socket.on("content-edited",(updatedContent)=>{
+    // console.log('request for edited content',updatedContent);
+    RoomtoContent.set(RoomId,updatedContent);
+    io.to(RoomId).emit('content-edited',RoomtoContent.get(RoomId));
+  })
+
+
+})
+
+
+// ------------------routes handling-------------------------------
 app.post("/compile", async(req,res)=>{
+  console.log('compiling');
     let code=req.body.code;
     let language=req.body.language;
     let userLangId=req.body.userLangId;
@@ -19,6 +84,7 @@ app.post("/compile", async(req,res)=>{
     if(language=="python"){
         language="py"
     }
+    
     // console.log('input',input);
   
     const options = {
@@ -62,12 +128,13 @@ app.post("/compile", async(req,res)=>{
         var temp=status.description+'\n'+stdout+'\n'+compile_output;
         res.send(temp);
         } catch (error) {
-        console.error(error);
+        console.error('error while compiling');
     }
 
 })
 
 app.get("/submission/:token",async(req,res)=>{
+  
     const options = {
         method: 'GET',
         url: `https://judge0-ce.p.rapidapi.com/submissions/${req.params.token}`,
@@ -107,41 +174,22 @@ app.get("/submission/:token",async(req,res)=>{
           console.error('error at get submissions',error);
       }
 })
+
 app.post("/generate-response", async(req,res)=>{
   try{
-        // const prompt = req.body.prompt;
-        // const result = await model.generateContent(prompt);
-        // const response = await result.response;
-        // const text = response.text();
+        const prompt = req.body.prompt;
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
         // console.log(text);
-        const text=`dkflsf fskf ERROR
-ResizeObserver loop completed with undelivered notifications.
-    at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
-    at http://localhost:3000/static/js/bundle.js:48398:7
-ERROR
-ResizeObserver loop completed with undelivered notifications.at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
-    at http://localhost:3000/static/js/bundle.js:48398:7
-    ERROR
-ResizeObserver loop completed with undelivered notifications.
-    at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
-    at http://localhost:3000/static/js/bundle.js:48398:7
-ERROR
-ResizeObserver loop completed with undelivered notifications.
-    at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
-    at http://localhost:3000/static/js/bundle.js:48398:7 ERROR
-ResizeObserver loop completed with undelivered notifications.
-    at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
-    at http://localhost:3000/static/js/bundle.js:48398:7
-ERROR
-ResizeObserver loop completed with undelivered notifications.
-    at handleError (http://localhost:3000/static/js/bundle.js:48379:58)
-    at http://localhost:3000/static/js/bundle.js:48398:7`;
         res.send(text);
   } catch(error){
     console.log(`error while generating response`);
   }
 })
 
-app.listen(PORT,()=>{
+
+
+server.listen(PORT,()=>{
     console.log(`Server listening on port ${PORT}`);
 });

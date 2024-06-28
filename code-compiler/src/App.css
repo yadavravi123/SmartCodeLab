@@ -9,8 +9,22 @@
 
 .main {
   display: flex;
+  /* flex-direction: column; */
+  /* flex-wrap: wrap; */
   height: calc(100vh - 50px);
 }
+@media only screen and (max-width: 1000px) {
+  .main {
+    display: flex;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    height: calc(100vh - 50px);
+  }
+}
+.leave-btn{
+  background-color: white;
+}
+
 
 .left-container {
   position: relative;
@@ -148,6 +162,20 @@ h4 {
   display: flex;
   flex-direction: column;
 }
+@media only screen and (max-width: 1000px) {
+  .gemini-side-bar{
+    color:black;
+    width:100%;
+    height: 30em;
+
+    /* background-color: #071952; */
+    background-color: #C6EBC5;
+    padding:1em;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .gemini-header{
   display: flex;
   flex-direction: row-reverse;
@@ -164,6 +192,15 @@ h4 {
 }
 .close-gemini{
   border-radius: 20px;
-  width:10px;
-  height:10px;
+  width:40px;
+  height:40px;
+}
+
+/* Home css */
+.main-container{
+  background-color: yellow;
+
+}
+.sub-container{
+  justify-content: center;
 }

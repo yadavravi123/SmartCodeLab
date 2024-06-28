@@ -2,17 +2,19 @@
 
 .navbar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    padding-left: 20px;
+    justify-content: space-around;
+    /* padding-left: 20px;
     padding-top:5px;
-    padding-bottom:5px;
-    height: 50px;
+    padding-bottom:10px; */
+    /* height: 50px; */
     text-align: center;
     /* color: #afec3f; */
-    color: black;
+    color:black;
     background-color: #219C90   ;
     /* background-color: white; */
-    gap: 20px;
+    /* gap: 20px; */
 }
 
 #no {
@@ -38,4 +40,14 @@
 .css-yk16xz-control {
     background-color: #474747 !important;
     border-color: #afec3f !important;
+}
+
+.leave-btn{
+    background-color:#afec3f;
+    font-weight: bold;
+    cursor:pointer;
+    border-radius: 4px;
+    font-size:22px;
+    border:none;    
+   
 }
