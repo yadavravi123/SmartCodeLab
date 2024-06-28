@@ -13,7 +13,7 @@ SmartCodeLab is a cutting-edge web application built using React and Node.js, de
     Code Optimization: Gemini can suggest optimizations and improvements to make your code more efficient and maintainable.
 
 
-* Real-Time Collaboration with socket.io<br>
+* Real-Time Collaboration with the help of socket.io<br>
     This feature allows developers to create a room, invite other developers and collaborate on a project seamlessly. With real-time updates, multiple developers can work together, edit code, and see changes instantly.
 
 * Dark & Light Modes
